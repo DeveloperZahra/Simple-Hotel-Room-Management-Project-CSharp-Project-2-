@@ -165,7 +165,24 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
 
         }
 
-       
+        // 6. Find the highest-paying guest________
+        static void HighestPayingGuest()
+        {
+            try
+            {
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+
+        }
+
+
 
 
 

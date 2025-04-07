@@ -130,7 +130,25 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
 
         }
 
+        // 4. View all reservations with total cost______
 
+        static void ViewAllReservations()
+        {
+            try
+            {
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+
+        }
+
+        
 
 
 

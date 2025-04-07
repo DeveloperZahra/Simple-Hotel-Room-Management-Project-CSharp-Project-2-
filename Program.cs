@@ -81,6 +81,7 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
             }
 
         }
+
         //2. View all rooms (Available and Reserved) _______
         static void ViewAllRooms()
 
@@ -93,7 +94,7 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
                     Console.WriteLine("No students available.");
                     return;
                 }
-                
+
                 for (int i = 0; i < roomCount; i++)
                 {
                     Console.WriteLine($"room: {i + 1}:");
@@ -111,7 +112,6 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
             }
 
         }
-
 
 
 

@@ -182,6 +182,22 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
 
         }
 
+        // 7. Cancel a reservation by room number______
+        static void CancelReservationByRoomNumber()
+        {
+            try
+            {
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+
+        }
 
 
 

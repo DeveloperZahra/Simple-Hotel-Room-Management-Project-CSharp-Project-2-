@@ -148,7 +148,26 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
 
         }
 
-        
+        // 5. Search reservation by guest name (case-insensitive)_____
+        static void SearchReservationByGuestName()
+        {
+            try
+            {
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+
+        }
+
+       
+
+
 
 
 

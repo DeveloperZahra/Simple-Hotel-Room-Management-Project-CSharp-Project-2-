@@ -112,7 +112,23 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
             }
 
         }
+        // 3. Reserve a room for a guest (Guest Name, Room Number, Nights)________
 
+        static void ReserveARoom()
+        {
+            try
+            {
+            
+            
+            
+            
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+
+        }
 
 
 

@@ -13,8 +13,8 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
         static bool[] isReserved = new bool[3];
         static string[] guestNames = new string[3];
         static int[] nights = new int[3];
-        static DateTime[] bookingDates = new DateTime[5];
-        static int StudentCounter = 0;
+        static DateTime[] bookingDates = new DateTime[3];
+        static int roomCount = 0;
         static void Main(string[] args)
         {
 
@@ -59,7 +59,58 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
                 Console.ReadLine();
             }
         }
+        // 1. Add a new room (Room Number, Daily Rate)______
+        static void AddaNewRoom()
+        {
+            try
+            {
+                char choice;
+                do
+                {
+                   
 
+
+                } while (choice == 'y' || choice == 'Y');
+
+            }
+            catch (Exception e)
+
+            {
+                Console.WriteLine($"Invalid to add another student!" + e.Message);
+
+            }
+
+        }
+        //2. View all rooms (Available and Reserved) _______
+        static void ViewAllRooms()
+
+        {
+            try
+            {
+
+                if (roomCount == 0)
+                {
+                    Console.WriteLine("No students available.");
+                    return;
+                }
+                
+                for (int i = 0; i < roomCount; i++)
+                {
+                    Console.WriteLine($"room: {i + 1}:");
+                    Console.WriteLine($"room number: {roomNumbers[i]}");
+                    Console.WriteLine($"room rates: {roomRates[i]}");
+                    Console.WriteLine($"Reserved: {isReserved[i]}");
+                    Console.WriteLine($"guest Names: {guestNames[i]}");
+                    Console.WriteLine($"nights: {nights[i]}");
+                    Console.WriteLine($"Date of Enrollment: {bookingDates[i]:yyyy-MM-dd HH:mm:ss}\n");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+
+        }
 
 
 

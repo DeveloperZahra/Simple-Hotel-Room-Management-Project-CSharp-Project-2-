@@ -259,7 +259,24 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
             try
             {
 
+                Console.Write("Enter guest name: ");
+                string guestName = Console.ReadLine();
 
+                bool found = false;
+                for (int i = 0; i < roomCount; i++)
+                {
+                    if (isReserved[i] && guestNames[i].Equals(guestName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        double totalCost = roomRates[i] * nights[i];
+                        Console.WriteLine($"Room {roomNumbers[i]} - Guest: {guestNames[i]} - Nights: {nights[i]} - Rate: {roomRates[i]:C} - Total Cost: {totalCost:C} - Booking Date: {bookingDates[i]}");
+                        found = true;
+                    }
+                }
+
+                if (!found)
+                {
+                    Console.WriteLine("Reservation not found.");
+                }
 
 
             }

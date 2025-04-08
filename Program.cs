@@ -19,6 +19,8 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
         static string[] guestNames = new string[MAX_ROOMS];
         static int[] nights = new int[MAX_ROOMS];
         static DateTime[] bookingDates = new DateTime[MAX_ROOMS];
+        static double[] totalCosts = new double[MAX_ROOMS];
+
         static void Main(string[] args)
         {
 
@@ -154,23 +156,18 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
             try
             {
 
-                if (roomCount == 0)
+                Console.WriteLine("\nAll Rooms:");
+                for (int i = 0; i < roomCount; i++) // make a loop to looping in  through all rooms 
                 {
-                    Console.WriteLine("No Room available.");
-                    return;
-                }
-
-                for (int i = 0; i < roomCount; i++)
-                {
-                    Console.WriteLine($"room: {i + 1}:");
-                    Console.WriteLine($"room number: {roomNumbers[i]}");
-                    Console.WriteLine($"room rates: {roomRates[i]}");
-                    Console.WriteLine($"Reserved: {isReserved[i]}");
-                    Console.WriteLine($"guest Names: {guestNames[i]}");
-                    Console.WriteLine($"nights: {nights[i]}");
-                    Console.WriteLine($"Date of Enrollment: {bookingDates[i]:yyyy-MM-dd HH:mm:ss}\n");
-                    
-                    Console.WriteLine($"TotalCost =>: nights * roomRates ");// calculate total cost dynmaicaliy...
+                    if (isReserved[i])
+                    {
+                        double totalCost = roomRates[i] * nights[i];// Show guest name and total cost 
+                        Console.WriteLine($"Room {roomNumbers[i]} - Rate: {roomRates[i]:C} - Reserved by: {guestNames[i]} - Total Cost: {totalCost:C}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Room {roomNumbers[i]} - Rate: {roomRates[i]:C} - Available");
+                    }
                 }
             }
             catch (Exception ex)

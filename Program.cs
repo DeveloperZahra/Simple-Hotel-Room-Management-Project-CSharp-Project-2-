@@ -1,4 +1,5 @@
-﻿using System.Net.NetworkInformation;
+﻿using System.ComponentModel.Design;
+using System.Net.NetworkInformation;
 using System.Threading.Channels;
 using System.Xml.Linq;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -8,17 +9,16 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
    internal class Room
 
    {
-        static List<Room> rooms = new List<Room>();
-        static Dictionary<int, bool> room = new Dictionary<int, bool>();
+        
         // Create the array and add the required variables...
-        static int[] roomNumbers = new int[3];
-        static double[] roomRates = new double[3];
-        static bool[] isReserved = new bool[3];
-        static string[] guestNames = new string[3];
-        static int[] nights = new int[3];
-        static DateTime[] bookingDates = new DateTime[3];
-       static decimal[] DailyRate = new decimal[3] ;
+        const int MAX_ROOMS = 100;
         static int roomCount = 0;
+        static int[] roomNumbers = new int[MAX_ROOMS];
+        static double[] roomRates = new double[MAX_ROOMS];
+        static bool[] isReserved = new bool[MAX_ROOMS];
+        static string[] guestNames = new string[MAX_ROOMS];
+        static int[] nights = new int[MAX_ROOMS];
+        static DateTime[] bookingDates = new DateTime[MAX_ROOMS];
         static void Main(string[] args)
         {
 
@@ -73,66 +73,82 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
                 do
                 {
 
+                    if (roomCount >= MAX_ROOMS)
+                    {
                         Console.Clear();
-                        Console.WriteLine("Enter Room  details:  \n");
+                        Console.WriteLine("Maximum capacity reached!");
+                        return;
 
                         // add room number...
                         Console.Write("Enter room number: \n");
-                        int roomNumber = int.Parse(Console.ReadLine());
+                        if (!int.TryParse(Console.ReadLine(), out int roomNumber))
 
-                        // Validate room number uniqueness
-                        if (!IsRoomNumberUnique(roomNumber))
                         {
                             Console.WriteLine("Error: Room number must be unique.");
                             return;
                         }
+                        // Check if the room number is unique
+                        bool exists = false;
+                        for (int i = 0; i < roomCount; i++)
+                        {
+                            if (roomNumbers[i] == roomNumber)
+                            {
+                                exists = true;
+                                break;
+                            }
+                        }
+
+                        if (exists)
+                        {
+                            Console.WriteLine("Room number already exists.");
+                            return;
+                        }
 
                         Console.Write("Enter daily rate: ");
-                        decimal dailyRate = decimal.Parse(Console.ReadLine());
+                        if (!double.TryParse(Console.ReadLine(), out double dailyRate))
+                        {
+                            Console.WriteLine("Invalid daily rate.");
+                            return;
+                        }
 
                         // Validate rate
-                        if (dailyRate < 100)
+                        while (dailyRate < 100)
                         {
                             Console.WriteLine("Error: Rate must be >= 100.");
                             return;
                         }
+                        // Storing details 
+                        roomNumbers[roomCount] = roomNumber;
+                        roomRates[roomCount] = dailyRate;
+                        isReserved[roomCount] = false;
+                        guestNames[roomCount] = string.Empty;
+                        roomCount++;
+                        Console.WriteLine($"Room {roomNumber} added with a daily rate of {dailyRate:C}.");
 
-                        // Add the new room to the list
-                        //rooms.Add(new Room(roomNumber, dailyRate));
-                        Console.WriteLine("Room added successfully.");
-
-
-                        static bool IsRoomNumberUnique(int roomNumber)
-                    { 
-                       
-
-                        foreach (var room in rooms)
-                            {
-                                if (room.RoomNumber == roomNumber)
-                                {
-                                    return false; // Room number is not unique
-                                }
-                            }
-                            return true; // Room number is unique
-                        }
-                        Console.WriteLine("Do you want to search for anther Room? y / n");
+                        Console.WriteLine("Do you want to add anther Room? Yes / No ");
                         choice = Console.ReadKey().KeyChar;
+                    }
 
-                    } while (choice == 'y' || choice == 'Y') ;
+                    else
+                    {
+                        Console.WriteLine();
+                        choice = 'n';
+                    }
 
-                }
-                
-            catch (Exception e)
 
-            {
-                Console.WriteLine($"Invalid to add another student!" + e.Message);
+                } while (choice == 'y' || choice == 'Y');
 
             }
 
-        }
-      
-        //2. View all rooms (Available and Reserved) _______
-        static void ViewAllRooms()
+            catch (Exception e)
+            {
+                Console.WriteLine($"Invalid to add another Room!" + e.Message);
+            }
+
+        }    
+
+         //2. View all rooms (Available and Reserved) _______
+            static void ViewAllRooms()
 
         {
             try
@@ -168,63 +184,63 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
         static void ReserveARoom()
         {
 
-            try
-            {
-                // Step 1: Get guest input
-                Console.WriteLine("Enter your name:");
-                string guestName = Console.ReadLine();
+            //try
+            //{
+            //    // Step 1: Get guest input
+            //    Console.WriteLine("Enter your name:");
+            //    string guestName = Console.ReadLine();
 
-                Console.WriteLine("Enter room number (e.g., 101, 102, 103, 104):");
-                int roomNumber = int.Parse(Console.ReadLine());
+            //    Console.WriteLine("Enter room number (e.g., 101, 102, 103, 104):");
+            //    int roomNumber = int.Parse(Console.ReadLine());
 
-                Console.WriteLine("Enter number of nights:");
-                int numberOfNights = int.Parse(Console.ReadLine());
+            //    Console.WriteLine("Enter number of nights:");
+            //    int numberOfNights = int.Parse(Console.ReadLine());
 
-                // Step 2: Validate inputs
-                if (IsRoomValid(roomNumber) && !IsRoomReserved(roomNumber) && numberOfNights > 0)
-                {
-                    ReserveRoom(guestName, roomNumber, numberOfNights);
-                }
-                else
-                {
-                    Console.WriteLine("Reservation failed. Please check your inputs.");
-                }
+            //    // Step 2: Validate inputs
+            //    if (IsRoomValid(roomNumber) && !IsRoomReserved(roomNumber) && numberOfNights > 0)
+            //    {
+            //        ReserveRoom(guestName, roomNumber, numberOfNights);
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("Reservation failed. Please check your inputs.");
+            //    }
 
 
-                // Check if the room exists in the system
-                static bool IsRoomValid(int roomNumber)
-                {
-                    if (!rooms.ContainsKey(roomNumber))
-                    {
-                        Console.WriteLine("Room number does not exist.");
-                        return false;
-                    }
-                    return true;
-                }
+            //    // Check if the room exists in the system
+            //    static bool IsRoomValid(int roomNumber)
+            //    {
+            //        if (!rooms.ContainsKey(roomNumber))
+            //        {
+            //            Console.WriteLine("Room number does not exist.");
+            //            return false;
+            //        }
+            //        return true;
+            //    }
 
-                // Check if the room is already reserved
-                static bool IsRoomReserved(int roomNumber)
-                {
-                    if (room[roomNumber])
-                    {
-                        Console.WriteLine("Room is already reserved.");
-                        return true;
-                    }
-                    return false;
-                }
+            //    // Check if the room is already reserved
+            //    static bool IsRoomReserved(int roomNumber)
+            //    {
+            //        if (room[roomNumber])
+            //        {
+            //            Console.WriteLine("Room is already reserved.");
+            //            return true;
+            //        }
+            //        return false;
+            //    }
 
-                // Reserve the room and update the system
-                static void ReserveRoom(string guestName, int roomNumber, int nights)
-                {
+            //    // Reserve the room and update the system
+            //    static void ReserveRoom(string guestName, int roomNumber, int nights)
+            //    {
                     
-                    Console.WriteLine($"Reservation successful! Guest: {guestName}, Room: {roomNumber}, Nights: {nights}");
-                }
-            }  
+            //        Console.WriteLine($"Reservation successful! Guest: {guestName}, Room: {roomNumber}, Nights: {nights}");
+            //    }
+            //}  
 
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-            }
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine($"An error occurred: {ex.Message}");
+            //}
 
         }
 

@@ -334,9 +334,32 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
         {
             try
             {
+                Console.Write("Enter room number: ");
+                if (!int.TryParse(Console.ReadLine(), out int roomNumber))
+                {
+                    Console.WriteLine("Invalid room number.");
+                    return;
+                }
 
+                int index = Array.IndexOf(roomNumbers, roomNumber, 0, roomCount);
+                if (index == -1)
+                {
+                    Console.WriteLine("Room not found.");
+                    return;
+                }
 
+                if (!isReserved[index])
+                {
+                    Console.WriteLine("Room is not reserved.");
+                    return;
+                }
 
+                isReserved[index] = false;
+                guestNames[index] = string.Empty;
+                nights[index] = 0;
+                bookingDates[index] = default;
+
+                Console.WriteLine($"Reservation for room {roomNumber} has been canceled.");
 
             }
             catch (Exception ex)

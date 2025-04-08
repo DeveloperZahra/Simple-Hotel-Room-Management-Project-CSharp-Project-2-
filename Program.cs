@@ -181,81 +181,75 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
         static void ReserveARoom()
         {
 
-            //try
-            //{
-            //    // Step 1: Get guest input
-            //    Console.WriteLine("Enter your name:");
-            //    string guestName = Console.ReadLine();
+            try
+            {
+                Console.Write("Enter room number: ");
+                if (!int.TryParse(Console.ReadLine(), out int roomNumber))
+                {
+                    Console.WriteLine("Invalid room number.");
+                    return;
+                }
 
-            //    Console.WriteLine("Enter room number (e.g., 101, 102, 103, 104):");
-            //    int roomNumber = int.Parse(Console.ReadLine());
+                int index = Array.IndexOf(roomNumbers, roomNumber, 0, roomCount);
+                if (index == -1)
+                {
+                    Console.WriteLine("Room not found.");
+                    return;
+                }
 
-            //    Console.WriteLine("Enter number of nights:");
-            //    int numberOfNights = int.Parse(Console.ReadLine());
+                if (isReserved[index])
+                {
+                    Console.WriteLine("Room is already reserved.");
+                    return;
+                }
 
-            //    // Step 2: Validate inputs
-            //    if (IsRoomValid(roomNumber) && !IsRoomReserved(roomNumber) && numberOfNights > 0)
-            //    {
-            //        ReserveRoom(guestName, roomNumber, numberOfNights);
-            //    }
-            //    else
-            //    {
-            //        Console.WriteLine("Reservation failed. Please check your inputs.");
-            //    }
+                Console.Write("Enter guest name: ");
+                string guestName = Console.ReadLine();
 
+                Console.Write("Enter number of nights: ");
+                if (!int.TryParse(Console.ReadLine(), out int numberOfNights) || numberOfNights <= 0)
+                {
+                    Console.WriteLine("Number of nights must be greater than 0.");
+                    return;
+                }
 
-            //    // Check if the room exists in the system
-            //    static bool IsRoomValid(int roomNumber)
-            //    {
-            //        if (!rooms.ContainsKey(roomNumber))
-            //        {
-            //            Console.WriteLine("Room number does not exist.");
-            //            return false;
-            //        }
-            //        return true;
-            //    }
+                guestNames[index] = guestName;
+                nights[index] = numberOfNights;
+                bookingDates[index] = DateTime.Now;
+                isReserved[index] = true;
 
-            //    // Check if the room is already reserved
-            //    static bool IsRoomReserved(int roomNumber)
-            //    {
-            //        if (room[roomNumber])
-            //        {
-            //            Console.WriteLine("Room is already reserved.");
-            //            return true;
-            //        }
-            //        return false;
-            //    }
-
-            //    // Reserve the room and update the system
-            //    static void ReserveRoom(string guestName, int roomNumber, int nights)
-            //    {
-                    
-            //        Console.WriteLine($"Reservation successful! Guest: {guestName}, Room: {roomNumber}, Nights: {nights}");
-            //    }
-            //}  
-
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine($"An error occurred: {ex.Message}");
-            //}
-
+                Console.WriteLine($"Room {roomNumber} reserved for {guestName} for {numberOfNights} nights.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while making a reservation: {ex.Message}");
+            }
         }
+
 
         // 4. View all reservations with total cost______
 
         static void ViewAllReservations()
         {
-            try
-            {
+           
+                try
+                {
+                    Console.WriteLine("\nReservations:");
+                    for (int i = 0; i < roomCount; i++)
+                    {
+                        if (isReserved[i])
+                        {
+                            double totalCost = roomRates[i] * nights[i];
+                            Console.WriteLine($"Room {roomNumbers[i]} - Guest: {guestNames[i]} - Nights: {nights[i]} - Rate: {roomRates[i]:C} - Total Cost: {totalCost:C} - Booking Date: {bookingDates[i]}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred while viewing reservations: {ex.Message}");
+                }
 
 
-
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
-            }
 
         }
 

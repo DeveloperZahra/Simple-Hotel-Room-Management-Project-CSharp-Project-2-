@@ -293,7 +293,32 @@ namespace Simple_Hotel_Room_Management_Project__CSharp_Project_2__
             try
             {
 
+                double highestAmount = 0;
+                string highestPayingGuest = "";
+                int highestPayingRoom = -1;
 
+                for (int i = 0; i < roomCount; i++)
+                {
+                    if (isReserved[i])
+                    {
+                        double totalCost = roomRates[i] * nights[i];
+                        if (totalCost > highestAmount)
+                        {
+                            highestAmount = totalCost;
+                            highestPayingGuest = guestNames[i];
+                            highestPayingRoom = roomNumbers[i];
+                        }
+                    }
+                }
+
+                if (highestPayingRoom != -1)
+                {
+                    Console.WriteLine($"Highest paying guest is {highestPayingGuest} in room {highestPayingRoom} with a total cost of {highestAmount:C}.");
+                }
+                else
+                {
+                    Console.WriteLine("No reservations found.");
+                }
 
 
             }
